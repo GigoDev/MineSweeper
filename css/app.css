@@ -1,27 +1,44 @@
-*{
+* {
   box-sizing: border-box;
 }
 
-.gamePanel{
+.gamePanel {
   width: 30vh;
   height: 30vh;
   margin: auto;
   border: 1px black solid;
 }
 
-table{
+table {
   margin: auto;
+  margin-top: 20%;
 }
 
-td{
+td {
   width: 2em;
-  height: 2em ;
+  height: 2em;
   border: 0.1em solid black;
   text-align: center;
   background-color: black;
   color: transparent;
 }
 
-.flagged{
+.flagged {
   background-color: lightsalmon;
 }
+
+.score {
+  margin-top: 10%;
+  width: 4em;
+  height: 2em;
+  background-color: lightblue;
+  text-align: center;
+  border: 0.1em solid black;
+  border-radius: 25%;
+  display: inline-block;
+}
+
+/* .mines{
+  background-color: white;
+} */
+

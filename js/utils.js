@@ -8,27 +8,27 @@ function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+        color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }
+}
 
-  function findEmptyPos() {
+function findEmptyPos() {
     var emptyPoss = []
 
     for (var i = 1; i < gBoard.length; i++) {
         for (var j = 1; j < gBoard.length; j++) {
             var cell = gBoard[i][j]
             if (!cell.isMine) {
-                var pos = {row:i,col:j}
+                var pos = { row: i, col: j }
                 emptyPoss.push(pos)
             }
         }
     }
-    var randIdx = getRandomInt(0, emptyPoss.length) 
-    var randPos = emptyPoss[randIdx] 
+    var randIdx = getRandomInt(0, emptyPoss.length)
+    var randPos = emptyPoss[randIdx]
     return randPos
-}  
+}
 
 
 function getRandomInt(min, max) {
@@ -38,8 +38,8 @@ function getRandomInt(min, max) {
 }
 
 function getClassName(location) {
-	const cellClass = 'cell-' + location.i + '-' + location.j
-	return cellClass
+    const cellClass = 'cell-' + location.i + '-' + location.j
+    return cellClass
 }
 
 function createMat(ROWS, COLS) {
@@ -54,18 +54,22 @@ function createMat(ROWS, COLS) {
     return mat
 }
 
-function countNegs(cellI, cellJ) { 
+function countNegs(cellI, cellJ) {
     var negsCount = 0
     for (var i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= gBoard.length) continue
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
             if (j < 0 || j >= gBoard[i].length) continue
             if (i === cellI && j === cellJ) continue
-             gBoard[i][j].minesAroundCount++
+            gBoard[i][j].minesAroundCount++
         }
     }
     return negsCount
 }
 
-
+function startTimer() {
+    gTimerInterval = setInterval(() => {
+        document.querySelector('.timer span').innerText = gGame.secsPassed++
+    }, 1000)
+}
 
