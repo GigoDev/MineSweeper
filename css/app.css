@@ -1,0 +1,27 @@
+*{
+  box-sizing: border-box;
+}
+
+.gamePanel{
+  width: 30vh;
+  height: 30vh;
+  margin: auto;
+  border: 1px black solid;
+}
+
+table{
+  margin: auto;
+}
+
+td{
+  width: 2em;
+  height: 2em ;
+  border: 0.1em solid black;
+  text-align: center;
+  background-color: black;
+  color: transparent;
+}
+
+.flagged{
+  background-color: lightsalmon;
+}
