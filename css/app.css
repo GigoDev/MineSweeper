@@ -7,14 +7,19 @@
   height: 90vh;
   margin: auto;
   border: 1px black solid;
-  background-color: #a2b9bc;
+  background-color: #4B0082;
+  transition: 0.3s;
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-style: normal;
+
 }
 
 table {
   width: 60%;
   height: 60%;
   margin: auto;
-  margin-top: 20%;
+  
 }
 
 td {
@@ -22,25 +27,38 @@ td {
   height: 2em;
   border: 0.1em solid black;
   text-align: center;
-  background-color: #b2ad7f;
+  background-color: #01796F;
+  font-size: larger
 }
 
+td:hover{
+  background-color:#F0E68C;
+}
+
+.scoreBoard{
+  display: flex;
+  flex-direction: row;
+  margin: 2em;
+}
 
 .score {
-  margin-top: 10%;
-  width: 4em;
+  margin: auto;
+  width: 5em;
   height: 2em;
-  background-color: #6b5b95;
+  background-color:#D8BFD8;
   text-align: center;
-  border: 0.1em solid black;
-  border-radius: 25%;
-  display: inline-block;
+  border: 0.01em solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+
 }
 
 .modal {
-  height: 15%;
-  width: 10%;
-  background-color: lightsalmon;
+  height: 10%;
+  width: 20%;
+  background-color: #CF1020;
   position: absolute;
   border: 0.1em solid black;
   top: 200px;
@@ -48,3 +66,39 @@ td {
   text-align: center;
   font-size: large;
 }
+
+.difficulty{
+  display: flex;
+  flex-direction: row;
+  margin-top: 1em;
+}
+
+button {
+
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.btn1 {
+  background-color: #04AA6D;
+}
+
+.btn2 {
+  background-color: #008CBA;
+}
+
+.btn3 {
+  background-color: #f44336;
+}
+
+.lives{
+  width: 100px;
+  margin: auto;
+  font-size: large;
+}
+
+

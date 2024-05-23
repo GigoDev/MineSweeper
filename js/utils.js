@@ -19,7 +19,7 @@ function findEmptyPos() {
     for (var i = 1; i < gBoard.length; i++) {
         for (var j = 1; j < gBoard.length; j++) {
             var cell = gBoard[i][j]
-            if (!cell.isMine) {
+            if (!cell.isMine && !cell.isShown) {
                 var pos = { row: i, col: j }
                 emptyPoss.push(pos)
             }
@@ -42,7 +42,8 @@ function getClassName(location) {
     return cellClass
 }
 
-function getCellPosByClass(classStr) {
+function getCellPosByElement(el) {
+    let classStr = el.classList[0] // classList[0] is 'cell-i-j'
     let classArr = classStr.split('-')
     let pos = { i: classArr[1], j: classArr[2] }
     return pos
