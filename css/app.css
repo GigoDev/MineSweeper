@@ -3,13 +3,16 @@
 }
 
 .gamePanel {
-  width: 30vh;
-  height: 30vh;
+  width: 70vh;
+  height: 90vh;
   margin: auto;
   border: 1px black solid;
+  background-color: #a2b9bc;
 }
 
 table {
+  width: 60%;
+  height: 60%;
   margin: auto;
   margin-top: 20%;
 }
@@ -19,26 +22,29 @@ td {
   height: 2em;
   border: 0.1em solid black;
   text-align: center;
-  background-color: black;
-  color: transparent;
+  background-color: #b2ad7f;
 }
 
-.flagged {
-  background-color: lightsalmon;
-}
 
 .score {
   margin-top: 10%;
   width: 4em;
   height: 2em;
-  background-color: lightblue;
+  background-color: #6b5b95;
   text-align: center;
   border: 0.1em solid black;
   border-radius: 25%;
   display: inline-block;
 }
 
-/* .mines{
-  background-color: white;
-} */
-
+.modal {
+  height: 15%;
+  width: 10%;
+  background-color: lightsalmon;
+  position: absolute;
+  border: 0.1em solid black;
+  top: 200px;
+  left: calc(50% - 150px);
+  text-align: center;
+  font-size: large;
+}

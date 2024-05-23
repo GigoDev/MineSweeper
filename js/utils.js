@@ -42,6 +42,12 @@ function getClassName(location) {
     return cellClass
 }
 
+function getCellPosByClass(classStr) {
+    let classArr = classStr.split('-')
+    let pos = { i: classArr[1], j: classArr[2] }
+    return pos
+}
+
 function createMat(ROWS, COLS) {
     const mat = []
     for (var i = 0; i < ROWS; i++) {
@@ -61,6 +67,7 @@ function countNegs(cellI, cellJ) {
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
             if (j < 0 || j >= gBoard[i].length) continue
             if (i === cellI && j === cellJ) continue
+            if (gBoard[i][j].isMine) continue
             gBoard[i][j].minesAroundCount++
         }
     }
@@ -68,8 +75,27 @@ function countNegs(cellI, cellJ) {
 }
 
 function startTimer() {
-    gTimerInterval = setInterval(() => {
+    let intervalID = setInterval(() => {
         document.querySelector('.timer span').innerText = gGame.secsPassed++
+        if (!gGame.isOn) clearInterval(intervalID)
     }, 1000)
 }
+
+function getNegsCells(cellI, cellJ) {
+    let cells = []
+    for (let i = cellI - 1; i <= cellI + 1; i++) {
+        if (i < 0 || i >= gBoard.length) continue
+        for (let j = cellJ - 1; j <= cellJ + 1; j++) {
+            if (j < 0 || j >= gBoard[i].length) continue
+            if (i === cellI && j === cellJ) continue
+            if (gBoard[i][j].isMine) continue
+            if (gBoard[i][j].isShown) continue
+            let cell = gBoard[i][j]
+            let elCell = document.querySelector(`.cell-${i}-${j}`)
+            cells.push({cell,elCell})
+        }
+    }
+    return cells
+}
+
 
