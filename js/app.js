@@ -37,7 +37,7 @@ function resetGlobals() {
         shownCount: 0,
         flagsCount: gLevel.MINES,
         secsPassed: 0,
-        livesCount: gLevel.MINES === 2 ? 1 : 3
+        livesCount: gLevel.MINES === 2 ? 2 : 3
     }
 
 }
@@ -177,9 +177,9 @@ function checkGameOver(cell) {
         gGame.livesCount--
         renderLives()
 
-        if (gGame.livesCount < 0) {  // Lose game
+        if (!gGame.livesCount ) {  // Lose game
             renderResetBtn(DEAD)
-            document.querySelector('.modal span').innerText = ' lost '
+            document.querySelector('.modal').innerText = 'Game Over'
             gameOver()
             return
         }
@@ -191,7 +191,7 @@ function checkGameOver(cell) {
     let isMinesMarked = checkAllMinesMarked()
 
     if (isBoardMarked && isMinesMarked) { // Game won
-        document.querySelector('.modal span').innerText = ' won '
+        document.querySelector('.modal ').innerText = ' Game won '
         renderResetBtn(WIN)
         gameOver()
     }
