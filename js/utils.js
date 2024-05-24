@@ -30,7 +30,6 @@ function findEmptyPos() {
     return randPos
 }
 
-
 function getRandomInt(min, max) {
     const minCeiled = Math.ceil(min);
     const maxFloored = Math.floor(max);
@@ -82,21 +81,5 @@ function startTimer() {
     }, 1000)
 }
 
-function getNegsCells(cellI, cellJ) {
-    let cells = []
-    for (let i = cellI - 1; i <= cellI + 1; i++) {
-        if (i < 0 || i >= gBoard.length) continue
-        for (let j = cellJ - 1; j <= cellJ + 1; j++) {
-            if (j < 0 || j >= gBoard[i].length) continue
-            if (i === cellI && j === cellJ) continue
-            if (gBoard[i][j].isMine) continue
-            if (gBoard[i][j].isShown) continue
-            let cell = gBoard[i][j]
-            let elCell = document.querySelector(`.cell-${i}-${j}`)
-            cells.push({cell,elCell})
-        }
-    }
-    return cells
-}
 
 

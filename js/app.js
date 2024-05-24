@@ -39,6 +39,7 @@ function resetGlobals() {
         secsPassed: 0,
         livesCount: gLevel.MINES === 2 ? 1 : 3
     }
+
 }
 
 function buildBoard() {
@@ -69,14 +70,14 @@ function randomizeMines() {
         gMinesPoss.push(pos)
     }
 
-    console.log(gMinesPoss);
+    console.log(gMinesPoss)
 
-    // gBoard[0][0].isMine = true
-    // gBoard[0][1].isMine = true
-    // gMinesPoss.push({ row: 0, col: 0 })
-    // gMinesPoss.push({ row: 0, col: 1 })
+        // gBoard[0][0].isMine = true
+        // gBoard[0][1].isMine = true
+        // gMinesPoss.push({ row: 0, col: 0 })
+        // gMinesPoss.push({ row: 0, col: 1 })
 
-    //  console.log(gMinesPoss);
+        // console.log(gMinesPoss);
 
 }
 
@@ -103,11 +104,8 @@ function renderBoard() {
         strHTML += '</tr>'
     }
 
-    // onclick="OnCellClicked(this,${i},${j})"  
-    // oncontextmenu="onCellFlaged(this,${i},${j});return false"
     const elBoard = document.querySelector('.board')
     elBoard.innerHTML = strHTML
-
 }
 
 function OnCellClicked(elCell, ev, i, j) {
@@ -115,24 +113,32 @@ function OnCellClicked(elCell, ev, i, j) {
     if (!gGame.isOn) return
     let cell = gBoard[i][j]
 
-    //  update model:
-
-    if (!ev.button) { // left-Click 
+    // left-Click 
+    if (!ev.button) {
 
         if (cell.isFlagged || cell.isShown) return
 
+        // Update model
         cell.isShown = true
         gGame.shownCount++
-        if (gGame.shownCount === 1) {
+
+        if (gGame.shownCount === 1) { // First left-click
             randomizeMines()
             setMinesNegsCount()
         }
-        if (!cell.minesAroundCount && !cell.isMine) expandShown(i, j)
+        if (!cell.minesAroundCount && !cell.isMine) {// Cell is empty
+            expandShown(i, j, true)
+            checkGameOver(cell)
+            return
+        }
+        //  Update model:
 
-    } else {  // right-click
+        // Right-click
+    } else {
 
         if (cell.isShown || (!gGame.flagsCount && !cell.isFlagged)) return
 
+        // Update model
         if (!cell.isFlagged) { // Flag cell
             gGame.flagsCount--
             cell.isFlagged = true
@@ -142,7 +148,7 @@ function OnCellClicked(elCell, ev, i, j) {
         }
     }
 
-    // update dom:
+    // Update dom:
     renderFlagsCount()
     renderCell(elCell, cell, ev)
     checkGameOver(cell)
@@ -167,23 +173,24 @@ function checkGameOver(cell) {
 
     (gGame.shownCount + gGame.flagsCount) === gLevel.SIZE ** 2
 
-    if (cell.isMine && cell.isShown) { // lose life
+    if (cell.isMine && cell.isShown) { // Lose life
         gGame.livesCount--
         renderLives()
 
-        if (gGame.livesCount<0){  // lose game
+        if (gGame.livesCount < 0) {  // Lose game
             renderResetBtn(DEAD)
             document.querySelector('.modal span').innerText = ' lost '
             gameOver()
+            return
         }
-        return
+      
     }
 
     let flaggedCount = gLevel.MINES - gGame.flagsCount
-    let isBoardMarked = (gGame.shownCount +flaggedCount) === gLevel.SIZE ** 2
+    let isBoardMarked = (gGame.shownCount + flaggedCount) === gLevel.SIZE ** 2
     let isMinesMarked = checkAllMinesMarked()
 
-    if (isBoardMarked && isMinesMarked) { // game won
+    if (isBoardMarked && isMinesMarked) { // Game won
         document.querySelector('.modal span').innerText = ' won '
         renderResetBtn(WIN)
         gameOver()
@@ -195,22 +202,43 @@ function checkAllMinesMarked() {
         let pos = gMinesPoss[i]
         let cell = gBoard[pos.row][pos.col]
 
-        if (!cell.isShown && !cell.isFlagged)  return false
+        if (!cell.isShown && !cell.isFlagged) return false
     }
     return true
 }
 
-function expandShown(cellI, cellJ) {
+function expandShown(row, col, cellIsClicked = false) {
 
-    let cells = getNegsCells(cellI, cellJ) // returns renderCell() args [{elCell,cell}]
-    for (let Idx = 0; Idx < cells.length; Idx++) {
-        let cell = cells[Idx].cell
-        let elCell = cells[Idx].elCell
-        gGame.shownCount++
-        cell.isShown = true
-        renderCell(elCell, cell)
+    if (row < 0 || col < 0 || row >= gBoard.length || col >= gBoard.length) {
+        return  // Out of bounds
     }
 
+    // Get local veriables
+    let cell = gBoard[row][col]
+    let elCell = document.querySelector(`.cell-${row}-${col}`)
+
+    if (cell.isShown && !cellIsClicked) return  // Already visited or shown by OnCellClicked()
+
+    if (!cellIsClicked) { // Check if OnCellClicked() already updated model
+        // Update model
+        cell.isShown = true
+        gGame.shownCount++
+    }
+
+    //Update dom
+    renderCell(elCell, cell)
+
+    if (cell.minesAroundCount) return // Not an empty cell
+
+    // Recursively Show the neighbors
+    expandShown(row - 1, col) // Up
+    expandShown(row + 1, col) // Down
+    expandShown(row, col - 1) // Left
+    expandShown(row, col + 1) // Right
+    expandShown(row - 1, col - 1) // Up-Left
+    expandShown(row - 1, col + 1) // Up-Right
+    expandShown(row + 1, col - 1) // Down-Left
+    expandShown(row + 1, col + 1) // Down-Right
 }
 
 function toggleModal() {
