@@ -71,11 +71,12 @@ function randomizeMines() {
 
     console.log(gMinesPoss);
 
-    // gBoard[1][3].isMine = true
-    // gBoard[1][2].isMine = true
-    // gMinesPoss.push({ row: 1, col: 3 })
-    // gMinesPoss.push({ row: 1, col: 2 })
+    // gBoard[0][0].isMine = true
+    // gBoard[0][1].isMine = true
+    // gMinesPoss.push({ row: 0, col: 0 })
+    // gMinesPoss.push({ row: 0, col: 1 })
 
+    //  console.log(gMinesPoss);
 
 }
 
@@ -108,7 +109,6 @@ function renderBoard() {
     elBoard.innerHTML = strHTML
 
 }
-
 
 function OnCellClicked(elCell, ev, i, j) {
 
@@ -171,8 +171,7 @@ function checkGameOver(cell) {
         gGame.livesCount--
         renderLives()
 
-        if (gGame.livesCount >= 0) return
-        else { // lose game
+        if (gGame.livesCount<0){  // lose game
             renderResetBtn(DEAD)
             document.querySelector('.modal span').innerText = ' lost '
             gameOver()
@@ -180,7 +179,8 @@ function checkGameOver(cell) {
         return
     }
 
-    let isBoardMarked = (gGame.shownCount + gGame.flagsCount) === gLevel.SIZE ** 2
+    let flaggedCount = gLevel.MINES - gGame.flagsCount
+    let isBoardMarked = (gGame.shownCount +flaggedCount) === gLevel.SIZE ** 2
     let isMinesMarked = checkAllMinesMarked()
 
     if (isBoardMarked && isMinesMarked) { // game won
@@ -191,13 +191,11 @@ function checkGameOver(cell) {
 }
 
 function checkAllMinesMarked() {
-
     for (let i = 0; i < gMinesPoss.length; i++) {
         let pos = gMinesPoss[i]
         let cell = gBoard[pos.row][pos.col]
 
-        if (cell.isShown || cell.isFlagged) continue
-        else return false
+        if (!cell.isShown && !cell.isFlagged)  return false
     }
     return true
 }
