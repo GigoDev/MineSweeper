@@ -267,7 +267,9 @@ function revealMines() {
 function gameOver() {
     gGame.isOn = false
     revealMines()
+    renderHints()
     toggleModal()
+    
 }
 
 function onSetDifficulty(Level) {
@@ -343,6 +345,7 @@ function renderHints() {
         strHTML += `<span class="hint" onclick="onHintClicked(this)">${HINT}</span>`
     }
     elDiv.innerHTML =strHTML
+    elDiv.hidden = !gGame.isOn
 }
 
 
