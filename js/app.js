@@ -7,6 +7,7 @@ const LIFE = '❤️'
 const NORMAL = '😀'
 const DEAD = '😵'
 const WIN = '😎'
+const HINT = '💡'
 
 let gBoard
 let gGame
@@ -26,6 +27,7 @@ function onInit() {
     startTimer()
     renderFlagsCount()
     renderLives()
+    renderHints()
     renderResetBtn(NORMAL)
 }
 
@@ -37,7 +39,9 @@ function resetGlobals() {
         shownCount: 0,
         flagsCount: gLevel.MINES,
         secsPassed: 0,
-        livesCount: gLevel.MINES === 2 ? 2 : 3
+        livesCount: gLevel.MINES === 2 ? 2 : 3,
+        hintCount: 3,
+        isHintOn: false
     }
 
 }
@@ -72,12 +76,12 @@ function randomizeMines() {
 
     console.log(gMinesPoss)
 
-        // gBoard[0][0].isMine = true
-        // gBoard[0][1].isMine = true
-        // gMinesPoss.push({ row: 0, col: 0 })
-        // gMinesPoss.push({ row: 0, col: 1 })
+    // gBoard[0][0].isMine = true
+    // gBoard[0][1].isMine = true
+    // gMinesPoss.push({ row: 0, col: 0 })
+    // gMinesPoss.push({ row: 0, col: 1 })
 
-        // console.log(gMinesPoss);
+    // console.log(gMinesPoss);
 
 }
 
@@ -93,7 +97,6 @@ function renderBoard() {
     for (let i = 0; i < gBoard.length; i++) {
         strHTML += '<tr>'
         for (let j = 0; j < gBoard.length; j++) {
-            const currCell = gBoard[i][j]
             let className = getClassName({ i, j })
 
             strHTML += `<td
@@ -118,6 +121,10 @@ function OnCellClicked(elCell, ev, i, j) {
 
         if (cell.isFlagged || cell.isShown) return
 
+        if (gGame.isHintOn) {
+            giveHint(i, j)
+            return
+        }
         // Update model
         cell.isShown = true
         gGame.shownCount++
@@ -157,7 +164,7 @@ function OnCellClicked(elCell, ev, i, j) {
 function renderCell(elCell, cell, ev = { button: 0 }) {
 
     if (!ev.button) { // left-click
-        elCell.style.backgroundColor = '#A3C1AD'
+        elCell.classList.add('show')
         if (cell.isMine) elCell.innerText = MINE
         else elCell.innerText = cell.minesAroundCount ? `${cell.minesAroundCount}` : EMPTY
     } else { // right-click
@@ -177,13 +184,13 @@ function checkGameOver(cell) {
         gGame.livesCount--
         renderLives()
 
-        if (!gGame.livesCount ) {  // Lose game
+        if (!gGame.livesCount) {  // Lose game
             renderResetBtn(DEAD)
             document.querySelector('.modal').innerText = 'Game Over'
             gameOver()
             return
         }
-      
+
     }
 
     let flaggedCount = gLevel.MINES - gGame.flagsCount
@@ -215,7 +222,7 @@ function expandShown(row, col, cellIsClicked = false) {
 
     // Get local veriables
     let cell = gBoard[row][col]
-    let elCell = document.querySelector(`.cell-${row}-${col}`)
+    let elCell = getCellElementByPos(row, col)
 
     if (cell.isShown && !cellIsClicked) return  // Already visited or shown by OnCellClicked()
 
@@ -249,7 +256,7 @@ function revealMines() {
 
     for (let i = 0; i < gMinesPoss.length; i++) {
         let pos = gMinesPoss[i]
-        let elCell = document.querySelector(`.cell-${pos.row}-${pos.col}`)
+        let elCell = getCellElementByPos(pos.row, pos.col)
         let cell = gBoard[pos.row][pos.col]
         renderCell(elCell, cell)
     }
@@ -295,7 +302,46 @@ function renderResetBtn(emojy) {
     elDiv.innerHTML = emojy
 }
 
+function onHintClicked(el) {
+    gGame.isHintOn = true
+    el.style.filter= 'hue-rotate(0deg)'
+}
 
+function giveHint(i, j) {
+    let poss = getNegsPoss(i, j)
+    toggleShowNegs(poss)
+    setTimeout(()=>{toggleShowNegs(poss)}, 1000)
+    gGame.hintCount--
+    gGame.isHintOn = false
+    renderHints()
+}
+
+function toggleShowNegs(poss) {
+    for (let i = 0; i < poss.length; i++) {
+        let pos = poss[i]
+        let cell = gBoard[pos.row][pos.col]
+        let elCell = getCellElementByPos(pos.row, pos.col)
+
+        cell.isShown = !cell.isShown
+        cell.isShown ? renderCell(elCell, cell) : hideCell(elCell, cell)
+    }
+}
+
+function hideCell(elCell, cell) {
+
+    elCell.classList.remove('show')
+    elCell.innerText = cell.isFlagged ? FLAG : EMPTY
+
+}
+
+function renderHints() {
+    let elDiv = document.querySelector('.hints')
+    let strHTML = ''
+    for (let i = 0; i < gGame.hintCount; i++) {
+        strHTML += `<span class="hint" onclick="onHintClicked(this)">${HINT}</span>`
+    }
+    elDiv.innerHTML =strHTML
+}
 
 
 

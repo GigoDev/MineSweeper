@@ -55,10 +55,11 @@ td:hover{
 
 .reset{
   margin: auto;
-  width: 5em;
+  width: 2em;
   height: 2em;
   text-align: center;
   font-size: 4em;
+  cursor: pointer;
 }
 
 .modal {
@@ -79,10 +80,27 @@ td:hover{
   margin-top: 1em;
 }
 
+.icons{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
 .lives{
   width: 150px;
   margin: auto;
   font-size: 2em;
+}
+
+.hints{
+  width: 150px;
+  margin: auto;
+}
+
+.hint{
+  font-size: 2em;
+  cursor: pointer;
+  filter: hue-rotate(175deg);
 }
 
 button {
@@ -121,3 +139,6 @@ button:active {
   }
 }
 
+.show{
+  background-color: #A3C1AD;
+}

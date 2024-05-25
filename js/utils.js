@@ -60,6 +60,10 @@ function createMat(ROWS, COLS) {
     return mat
 }
 
+function getCellElementByPos(i, j) {
+    return document.querySelector(`.cell-${i}-${j}`)
+}
+
 function countNegs(cellI, cellJ) {
     var negsCount = 0
     for (var i = cellI - 1; i <= cellI + 1; i++) {
@@ -74,12 +78,28 @@ function countNegs(cellI, cellJ) {
     return negsCount
 }
 
+function getNegsPoss(cellI, cellJ) {
+    let poss = []
+    for (var i = cellI - 1; i <= cellI + 1; i++) {
+        if (i < 0 || i >= gBoard.length) continue
+        for (var j = cellJ - 1; j <= cellJ + 1; j++) {
+            if (j < 0 || j >= gBoard[i].length) continue
+            if (gBoard[i][j].isShown) continue
+            poss.push({ row: i, col: j })
+        }
+    }
+    return poss
+}
+
 function startTimer() {
     let intervalID = setInterval(() => {
         document.querySelector('.timer span').innerText = gGame.secsPassed++
         if (!gGame.isOn) clearInterval(intervalID)
     }, 1000)
 }
+
+
+
 
 
 
