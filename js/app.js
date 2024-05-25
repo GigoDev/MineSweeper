@@ -27,7 +27,6 @@ function onInit() {
     startTimer()
     renderFlagsCount()
     renderLives()
-    renderHints()
     renderResetBtn(NORMAL)
 }
 
@@ -75,6 +74,8 @@ function randomizeMines() {
     }
 
     console.log(gMinesPoss)
+
+    // Developer mode:
 
     // gBoard[0][0].isMine = true
     // gBoard[0][1].isMine = true
@@ -132,6 +133,7 @@ function OnCellClicked(elCell, ev, i, j) {
         if (gGame.shownCount === 1) { // First left-click
             randomizeMines()
             setMinesNegsCount()
+            renderHints()
         }
         if (!cell.minesAroundCount && !cell.isMine) {// Cell is empty
             expandShown(i, j, true)
