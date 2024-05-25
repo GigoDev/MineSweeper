@@ -12,6 +12,7 @@ const HINT = '💡'
 let gBoard
 let gGame
 let gMinesPoss
+let gintervalID
 
 let gLevel = {
     SIZE: 4,
@@ -20,6 +21,7 @@ let gLevel = {
 
 function onInit() {
 
+    clearInterval(gintervalID)
     resetGlobals()
     toggleModal()
     buildBoard()
@@ -268,8 +270,7 @@ function revealMines() {
 function gameOver() {
     gGame.isOn = false
     revealMines()
-    toggleModal()
-    
+    toggleModal() 
 }
 
 function onSetDifficulty(Level) {

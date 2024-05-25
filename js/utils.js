@@ -92,7 +92,7 @@ function getNegsPoss(cellI, cellJ) {
 }
 
 function startTimer() {
-    let intervalID = setInterval(() => {
+    gintervalID = setInterval(() => {
         document.querySelector('.timer span').innerText = gGame.secsPassed++
         if (!gGame.isOn) clearInterval(intervalID)
     }, 1000)
