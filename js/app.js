@@ -27,6 +27,7 @@ function onInit() {
     startTimer()
     renderFlagsCount()
     renderLives()
+    renderHints()
     renderResetBtn(NORMAL)
 }
 
@@ -267,7 +268,6 @@ function revealMines() {
 function gameOver() {
     gGame.isOn = false
     revealMines()
-    renderHints()
     toggleModal()
     
 }
@@ -345,7 +345,7 @@ function renderHints() {
         strHTML += `<span class="hint" onclick="onHintClicked(this)">${HINT}</span>`
     }
     elDiv.innerHTML =strHTML
-    elDiv.hidden = !gGame.isOn
+    elDiv.hidden = Boolean(!gGame.shownCount)
 }
 
 
