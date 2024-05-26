@@ -3,8 +3,8 @@
 }
 
 .gamePanel {
-  width: 80vh;
-  height: 95vh;
+  width: 50vw;
+  min-height: 60vh;
   margin: auto;
   background: linear-gradient(#e66465, #9198e5);
   transition: 0.3s;
@@ -16,26 +16,23 @@
 }
 
 table {
-  width: 60%;
-  height: 60%;
-  margin: auto; 
+  margin: auto;
 }
 
 td {
   width: 2em;
   height: 2em;
-  margin: 0px;
   text-align: center;
   background-color: whitesmoke;
   font-size: larger;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;  
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
-td:hover{
-  background-color:#F0E68C;
+td:hover {
+  background-color: #F0E68C;
 }
 
-.scoreBoard{
+.scoreBoard {
   display: flex;
   flex-direction: row;
   margin: 2em;
@@ -45,7 +42,7 @@ td:hover{
   margin: auto;
   width: 5em;
   height: 2em;
-  background-color:#D8BFD8;
+  background-color: #D8BFD8;
   text-align: center;
   border: 0.01em solid black;
   display: flex;
@@ -54,7 +51,7 @@ td:hover{
   font-size: 2em;
 }
 
-.reset{
+.reset {
   margin: auto;
   width: 2em;
   height: 2em;
@@ -75,30 +72,30 @@ td:hover{
   font-size: 2em;
 }
 
-.difficulty{
+.difficulty {
   display: flex;
   flex-direction: row;
   margin-top: 1em;
 }
 
-.icons{
+.icons {
   display: flex;
   justify-content: center;
   flex-direction: row;
 }
 
-.lives{
+.lives {
   width: 150px;
   margin: auto;
   font-size: 2em;
 }
 
-.hints{
+.hints {
   width: 150px;
   margin: auto;
 }
 
-.hint{
+.hint {
   font-size: 2em;
   cursor: pointer;
   filter: hue-rotate(175deg);
@@ -141,7 +138,6 @@ button:active {
   }
 }
 
-.show{
+.show {
   background-color: lightblue;
 }
-
